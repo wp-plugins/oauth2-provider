@@ -3,9 +3,9 @@
 Contributors: justingreerbbi
 Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO
-Requires at least: 3.7
-Tested up to: 3.9.1
-Stable tag: 2.0.0
+Requires at least: 3.9
+Tested up to: 4.1
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

@@ -1,48 +1,51 @@
 <?php
-class WO_Server
-{
-	public static $version = "3.0.2";
+class WO_Server {
+	public $version = "3.0.3";
 	public static $_instance = null;
 	protected $defualt_settings = array(
-		"enabled" 											=> 1,
-		"client_id_length" 							=> 30,
-		"auth_code_enabled" 						=> 1,
-		"client_creds_enabled" 					=> 0,
-		"user_creds_enabled" 						=> 0,
-		"refresh_tokens_enabled"	 			=> 0,
-		"implicit_enabled"							=> 0,
-		"require_exact_redirect_uri"		=> 0,
-		"enforce_state"									=> 0
-		);
+		"enabled" => 1,
+		"client_id_length" => 30,
+		"auth_code_enabled" => 1,
+		"client_creds_enabled" => 0,
+		"user_creds_enabled" => 0,
+		"refresh_tokens_enabled" => 0,
+		"implicit_enabled" => 0,
+		"require_exact_redirect_uri" => 0,
+		"enforce_state" => 0,
+	);
 
-	function __construct ()
-	{
-		if (! defined( "WOABSPATH" ) )
-			define("WOABSPATH", dirname( __FILE__ ) );
-		if (! defined( "WOURI" ) )
-				define( "WOURI", plugins_url("/", __FILE__) );
-
-		if ( function_exists( "__autoload" ) ) {
-			spl_autoload_register( "__autoload" );
+	function __construct() {
+		if (!defined("WOABSPATH")) {
+			define("WOABSPATH", dirname(__FILE__));
 		}
-		spl_autoload_register( array( $this, 'autoload' ) );
-		
+
+		if (!defined("WOURI")) {
+			define("WOURI", plugins_url("/", __FILE__));
+		}
+
+		if (function_exists("__autoload")) {
+			spl_autoload_register("__autoload");
+		}
+		spl_autoload_register(array($this, 'autoload'));
+
 		/** load all dependants */
 		add_action("init", array(__CLASS__, "includes"));
 
 		/** check if permalinks are set */
-    if (! get_option('permalink_structure') )
-        add_action('admin_notices', array(__CLASS__, 'permalink_notice'));
+		if (!get_option('permalink_structure')) {
+			add_action('admin_notices', array(__CLASS__, 'permalink_notice'));
+		}
+
 	}
 
 	/**
 	 * populate the instance if the plugin for exstendability
 	 * @return object plugin instance
 	 */
-	public static function instance ()
-	{
-		if ( is_null( self::$_instance ) ) 
+	public static function instance() {
+		if (is_null(self::$_instance)) {
 			self::$_instance = new self();
+		}
 
 		return self::$_instance;
 	}
@@ -51,20 +54,17 @@ class WO_Server
 	 * setup plugin class autoload
 	 * @return void
 	 */
-	public function autoload ($class)
-	{
-		$path  = null;
-		$class = strtolower( $class );
-		$file = 'class-' . str_replace( '_', '-', $class ) . '.php';
+	public function autoload($class) {
+		$path = null;
+		$class = strtolower($class);
+		$file = 'class-' . str_replace('_', '-', $class) . '.php';
 
-		if( strpos( $class, "wo_") === 0 )
-		{
-			$path = dirname( __FILE__ ) . '/library/' . trailingslashit(substr(str_replace( '_', '-', $class ), 18));
+		if (strpos($class, "wo_") === 0) {
+			$path = dirname(__FILE__) . '/library/' . trailingslashit(substr(str_replace('_', '-', $class), 18));
 		}
 
-		if ( $path && is_readable( $path . $file ) ) 
-		{
-			include_once( $path . $file );
+		if ($path && is_readable($path . $file)) {
+			include_once $path . $file;
 			return;
 		}
 	}
@@ -73,60 +73,61 @@ class WO_Server
 	 * plugin includes called during load of plugin
 	 * @return void
 	 */
-	public static function includes ()
-	{
-		require_once( dirname(__FILE__) . '/includes/functions.php');
-		require_once( dirname(__FILE__) . '/includes/admin-options.php');
-		require_once( dirname(__FILE__) . '/includes/rewrites.php');
-		require_once( dirname(__FILE__) . '/includes/filters.php');
-		
+	public static function includes() {
+		require_once dirname(__FILE__) . '/includes/functions.php';
+		require_once dirname(__FILE__) . '/includes/admin-options.php';
+		require_once dirname(__FILE__) . '/includes/rewrites.php';
+		require_once dirname(__FILE__) . '/includes/filters.php';
+
 		/** include the ajax class if DOING_AJAX is defined */
-		if ( defined( 'DOING_AJAX' ) )
-			require_once( dirname(__FILE__) . '/includes/ajax/class-wo-ajax.php');
+		if (defined('DOING_AJAX')) {
+			require_once dirname(__FILE__) . '/includes/ajax/class-wo-ajax.php';
+		}
+
 	}
 
 	/**
 	 * plugin setup. this is only ran on activation
 	 * @return [type] [description]
 	 */
-	public function setup ()
-	{
+	public function setup() {
 		$options = get_option("wo_options");
-		if(!isset($options["enabled"]) )
+		if (!isset($options["enabled"])) {
 			update_option("wo_options", $this->defualt_settings);
+		}
 
 		$this->install();
 	}
 
-	/** 
+	/**
 	 * Error is the permalinks are not set
 	 * @return [type] [description]
 	 */
-	public function permalink_notice ()
-	{
-		 echo '<div id="message" class="error"><p>WordPress OAuth Server Requires <a href="options-permalink.php">Permalinks</a> other than <strong>Default</strong>.</p></div>';
+	public function permalink_notice() {
+		echo '<div id="message" class="error"><p>WordPress OAuth Server Requires <a href="options-permalink.php">Permalinks</a> other than <strong>Default</strong>.</p></div>';
 	}
 
 	/**
 	 * plugin update check
 	 * @return [type] [description]
 	 */
-	public function install ()
-	{
+	public function install() {
 		/** install the required tables in the database */
 		global $wpdb;
 		$charset_collate = '';
-		
-		/** set charset to current wp option */
-		if ( ! empty( $wpdb->charset ) )
-  		$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
 
-  	/** set collate to current wp option */
-		if ( ! empty( $wpdb->collate ) )
-  		$charset_collate .= " COLLATE {$wpdb->collate}";
+		/** set charset to current wp option */
+		if (!empty($wpdb->charset)) {
+			$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}";
+		}
+
+		/** set collate to current wp option */
+		if (!empty($wpdb->collate)) {
+			$charset_collate .= " COLLATE {$wpdb->collate}";
+		}
 
 		/** update the plugin version in the database */
-		update_option("wpoauth_version", self::$version);
+		update_option("wpoauth_version", $this->version);
 
 		$sql1 = "
 			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}oauth_clients (
@@ -141,8 +142,8 @@ class WO_Server
         PRIMARY KEY (client_id)
       );
 			";
-			
-			$sql2 = "
+
+		$sql2 = "
 			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}oauth_access_tokens (
 				access_token         VARCHAR(40)    NOT NULL,
         client_id            VARCHAR(80)    NOT NULL,
@@ -152,8 +153,8 @@ class WO_Server
         PRIMARY KEY (access_token)
       );
 			";
-			
-			$sql3 = "
+
+		$sql3 = "
 			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}oauth_refresh_tokens (
 				refresh_token       VARCHAR(40)    NOT NULL,
         client_id           VARCHAR(80)    NOT NULL,
@@ -164,7 +165,7 @@ class WO_Server
       );
 			";
 
-			$sql4 = "
+		$sql4 = "
 			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}oauth_authorization_codes (
         authorization_code  VARCHAR(40)    NOT NULL,
         client_id           VARCHAR(80)    NOT NULL,
@@ -176,8 +177,8 @@ class WO_Server
         PRIMARY KEY (authorization_code)
       );
 			";
-			
-			$sql5 = "
+
+		$sql5 = "
 			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}oauth_scopes (
         scope               VARCHAR(80)  NOT NULL,
         is_default          BOOLEAN,
@@ -185,7 +186,7 @@ class WO_Server
       );
 			";
 
-			$sql6 = "
+		$sql6 = "
 			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}oauth_jwt (
         client_id           VARCHAR(80)   NOT NULL,
         subject             VARCHAR(80),
@@ -194,7 +195,7 @@ class WO_Server
       );
 			";
 
-			$sql6 = "
+		$sql6 = "
 			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}oauth_public_keys (
         client_id            VARCHAR(80),
         public_key           VARCHAR(2000),
@@ -203,20 +204,19 @@ class WO_Server
         PRIMARY KEY (client_id)
       );
 			";
-			
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql1 );	
-		dbDelta( $sql2 );	
-		dbDelta( $sql3 );	
-		dbDelta( $sql4 );	
-		dbDelta( $sql5 );	
-		dbDelta( $sql6 );	
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta($sql1);
+		dbDelta($sql2);
+		dbDelta($sql3);
+		dbDelta($sql4);
+		dbDelta($sql5);
+		dbDelta($sql6);
 	}
 
 }
 
-function _WO ()
-{
+function _WO() {
 	return WO_Server::instance();
 }
 $GLOBAL['WO'] = _WO();

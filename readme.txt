@@ -5,11 +5,11 @@ Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO
 Requires at least: 3.9
 Tested up to: 4.1
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This project is an OAuth 2.0 compatible authentication provider using WordPress.
+Use WordPress to Power Your OAuth Server
 
 == Description ==
 
@@ -106,3 +106,9 @@ For any upgrade, PLEASE PLEASE PLEASE make a full backup of your data.
 * Readded Authorization Code Enable Option
 * API unavaliable error now uses OAuth Response object
 * API now reports when access token is not provided during resource calls
+
+= 3.0.3 =
+* Modified how clients are added and edited
+* Add Pro Features
+* Added additional information to "Server Status" Tab
+* Minor Clean Up

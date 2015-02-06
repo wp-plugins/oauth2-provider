@@ -1,28 +1,19 @@
-=== WordPress OAuth Server ===
+=== WP OAuth Server ===
 
 Contributors: justingreerbbi
 Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO
 Requires at least: 3.9
 Tested up to: 4.1
-Stable tag: 3.0.3
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Use WordPress to Power Your OAuth Server
+Use WordPress to Power Your OAuth Server and become a OAuth Provider
 
 == Description ==
 
-WordPress OAuth Server allows your WordPress site to become an authentication endpoint as well has allowing to you tie in 3rd party apps and software that requires login.
-
-= Supported Grant Types =
-
-* Authentication Code/Implicit
-* User Credentials
-* Client Credentials
-* Refresh Token
-
-WordPress OAuth Server does not currently support `Jwt Bearer` or `Crypto Tokens`.
+Support for WP OAuth as been discontinued on WP.ORG and has been moved to WP OAuth. Please visit http://wp-oauth.com for details, support and the plugin itself.
 
 == Installation ==
 
@@ -33,31 +24,7 @@ WordPress OAuth Server does not currently support `Jwt Bearer` or `Crypto Tokens
 
 == Frequently Asked Questions ==
 
-= How do I add a APP/Client? =
-
-Click on `Settings->OAuth Server`. Click on the `Clients` tab and then `Add New Client`. Enter the client information and your are done.
-
-= Does WordPress OAuth Server Support SSO (Single Sign On) =
-
-Yes, WordPress OAuth Server does support Single Sign On.
-
-= Is there support for this plugin? Can you help me? =
-
-You can visit our <a href="http://wp-oauth.com/forums/" title="WordPress OAuth Server">support forum</a> for support.
-
-= Can you set this up for me on my current website? =
-
-* DRINKS COFFEE * Can I? "YES". You are more than welcome to contact us with if you should ever need assistance.
-
-= How do I use WordPress OAuth Server? =
-
-You can visit <a href="http://wp-oauth.com">http://wp-oauth.com</a>. You will find in-depth documentation as well as examples of how to get started.
-
 == Upgrade Notice ==
-
-Version 2.0.0 and lower are not compatiable with version 3.0.0. If you have built your service using version 2.0.0 or lower, visit <a href="http://wp-oauth.com">http://wp-oauth.com</a> support forums.
-
-For any upgrade, PLEASE PLEASE PLEASE make a full backup of your data. 
 
 == Screenshots ==
 

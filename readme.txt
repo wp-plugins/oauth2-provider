@@ -24,12 +24,10 @@ WordPress OAuth Server allows your WordPress site to become an authentication en
 
 = How to Use =
 
-Once you have WP Oauth Server installed and configured you can begin to setup your clients.
+Visit https://wp-oauth.com/knowledge-base/ detailed documentation on installing, configuring and using WordPress Oauth Server.
 
-*Authentication Code (Most Common, used for Single Sign On)*
-
-= Upgrading to Pro =  
-Upgrading to the PRO version removes all limitations from the plugin. You can lean more by visiting http://wp-oauth.com
+= Licensing =  
+Visit https://wp-oauth.com for more information about WordPress OAuth Server licensing.
 
 = Minimum Requirements =
 * PHP 5.3.9 or greater *(5.4+ recommended)*
@@ -39,6 +37,9 @@ Upgrading to the PRO version removes all limitations from the plugin. You can le
 WordPress OAuth Server does not currently support `Jwt Bearer` or `Crypto Tokens`.
 
 *NOTE: As of 3.0.0, there are no backward compatiability for any version older than 3.0.0. We are working on a migration tool, but as of now any upgrade from 2.x to 3.x will need to be done manaully.*
+
+= Support =
+Support requests should be made by opening a support request at https://wp-oauth.com/account/submit-ticket/.
 
 == Installation ==
 
@@ -59,7 +60,7 @@ Yes, WordPress OAuth Server does support Single Sign On.
 
 = Is there support for this plugin? Can you help me? =
 
-You can visit our <a href="http://wp-oauth.com/forums/" title="WordPress OAuth Server">support forum</a> for support.
+You can visit our https://wp-oauth.com/account/submit-ticket/ to open up a support request directly with developers.
 
 = Can you set this up for me on my current website? =
 
@@ -67,13 +68,13 @@ You can visit our <a href="http://wp-oauth.com/forums/" title="WordPress OAuth S
 
 = How do I use WordPress OAuth Server? =
 
-You can visit <a href="http://wp-oauth.com">http://wp-oauth.com</a>. You will find in-depth documentation as well as examples of how to get started.
+You can visit https://wp-oauth.com/account/submit-ticket/. You will find in-depth documentation as well as examples of how to get started.
 
 == Upgrade Notice ==
 
-Version 2.0.0 and lower are not compatiable with version 3.0.0. If you have built your service using version 2.0.0 or lower, visit <a href="http://wp-oauth.com">http://wp-oauth.com</a> support forums.
+Version 2.0.0 and lower are not compatiable with version 3.0.0. If you have built your service using version 2.0.0 or lower, visit https://wp-oauth.com/account/submit-ticket/ to open a new request support request.
 
-For any upgrade, PLEASE PLEASE PLEASE make a full backup of your data. 
+For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your data. 
 
 == Screenshots ==
 

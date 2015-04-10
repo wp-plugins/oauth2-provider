@@ -76,7 +76,7 @@ if ($o['refresh_tokens_enabled'] == '1') {
 |
 | For the time being, the plugin will not fully support scopes. This is where
 | the scopes can be registered. This will be extended to be a filter in
-| upcomming release. Modify at your own risk.. This will be wiped unpon
+| upcoming release. Modify at your own risk.. This will be wiped upon
 | a plugin update to newer versions.
 |
  */
@@ -98,7 +98,7 @@ $server->setScopeUtil($scopeUtil);
 | TOKEN CATCH
 |--------------------------------------------------------------------------
 |
-| The followng code is ran when a request is made to the server using the
+| The following code is ran when a request is made to the server using the
 | Authorization Code (implicit) Grant Type as well as request tokens
 |
  */
@@ -112,7 +112,7 @@ if ($method == 'token') {
 | AUTHORIZATION CODE CATCH
 |--------------------------------------------------------------------------
 |
-| The followng code is ran when a request is made to the server using the
+| The following code is ran when a request is made to the server using the
 | Authorization Code (not implicit) Grant Type.
 |
 | 1. Check if the user is logged in (redirect if not)
@@ -163,7 +163,7 @@ if ($method == 'public_cert') {
 |--------------------------------------------------------------------------
 |
 | Below this line is part of the developer API. Do not edit directly.
-| Refer to the developer documentation for exstending the WordPress OAuth
+| Refer to the developer documentation for extending the WordPress OAuth
 | Server plugin core functionality.
 |
 | @todo Document and tighten up error messages. All error messages will soon be
@@ -175,7 +175,7 @@ $ext_methods = apply_filters('wo_endpoints', null);
 if (array_key_exists($method, $ext_methods)) {
 	$response = new OAuth2\Response();
 	if (!$server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
-		$response->setError(400, 'invalid_request', 'Missinng or invalid paramter(s)');
+		$response->setError(400, 'invalid_request', 'Missing or invalid parameter(s)');
 		$response->send();
 		die;
 	}

@@ -5,17 +5,16 @@ Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO, OpenID Connect, OIDC, OpenID, Connect
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Use WordPress to Power Your OAuth Server
+Create and Manage an OAuth 2.0 server powered by WordPress. Become a Single Sign On Provider and or resource server.
 
 == Description ==
 
-This plugin is an OAuth 2.0 compatible authorization method using WordPress users. 
-The goal of WordPress OAuth Server is to provide an easy to use authentication and authorization
-method that 3rd party services can use to securely connect to any server running a WordPress site.
+This plugin is a a full OAuth 2.0 authorization server/provider for WordPress. 
+The goal of WP OAuth Server is to provide an easy to use authorization method that 3rd party platforms can use to securely authorize users from your WordPress site.
 
 = Features =
 
@@ -42,8 +41,7 @@ WordPress OAuth Server.
 
 = Licensing = 
 
-Visit https://wp-oauth.com for more information about WordPress OAuth Server licensing. Licensing
-WordPress OAuth Server if not required to use this plugin.
+Visit https://wp-oauth.com for more information about WP OAuth Server licensing.
 
 = Minimum Requirements =
 
@@ -160,3 +158,8 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 * Added "email" to default me resource to support OpenID Connect 1.0
 * Added generic key signing for all clients.
 * Added public endpoint for verifying id_token (/oauth/public_key)
+
+= 3.0.6 =
+* Fixed "Undefined Error" in Authorization Controller. Credit to Frédéric. Thank You!
+* Remove "Redirect URI" Column from clients table to clean up table on smaller screens.
+* Updated banner and plugin icon.

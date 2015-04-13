@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.0.6";
+	public $version = "3.0.7";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -176,10 +176,7 @@ class WO_Server {
 							<p>
 								<ul>
 									<li>
-										- Fixed "undefined Constant" error with OpenID Auth Controller.
-									</li>
-									<li>
-										- Updated assets in WP Plugin Repository
+										- OpenID TOKEN_ID_TOKEN bug.
 									</li>
 								</ul>
 							</p>
@@ -187,7 +184,7 @@ class WO_Server {
 						<div class="col">
 							<h3>White board</h3>
 							<p>
-								3.0.6 is a minor release fixing only one known bug. We will continue to enhance the documentation
+								<?php echo $this->version; ?> is a minor release fixing only one known bug. We will continue to enhance the documentation
 								and extendability of the plugin.
 							</p>
 							<p>
@@ -209,12 +206,7 @@ class WO_Server {
 						<div class="col">
 							<h3>Credits</h3>
 							<p>
-								All good deeds go noticed and below is people that we credit for this version of WP OAuth Server.
-							</p>
-							<p>
-								<ul>
-									<li>- Frédéric</li>
-								</ul>
+								WP OAuth Team and community.
 							</p>
 						</div>
 					</div>

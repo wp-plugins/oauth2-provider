@@ -154,7 +154,8 @@ class Wordpressdb implements
      * @param [type] $scope        [description]
      */
     public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope=null) 
-    {
+    {   
+        $expires = strtotime("+10 years", $expires);
         $expires = date('Y-m-d H:i:s', $expires);
         if ($this->getAccessToken($access_token)) {
             $stmt = $this->db->prepare("UPDATE {$this->db->prefix}oauth_access_tokens SET client_id=%s, expires=%s, user_id=%s, scope=%s where access_token=%s", array($client_id, $expires, $user_id, $scope, $access_token));

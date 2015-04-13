@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.0.5";
+	public $version = "3.0.7";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -145,7 +145,7 @@ class WO_Server {
 		?>
 		<div class="wrap about-wrap">
 			<h1><?php printf( esc_html__( 'Welcome to WP OAuth Server %s', 'wp-oauth' ), $this->version ); ?></h1>
-			<div class="about-text"><?php printf( esc_html__( 'Thank You for using WP OAuth Server %s! WordPress OAuth Server is bundled with everything you need to run your own OAuth 2.0 Provider Server.', 'wp-oauth' ), $this->version ); ?></div>
+			<div class="about-text"><?php printf( esc_html__( 'Thank You for using WP OAuth Server %s. WordPress OAuth Server is bundled with everything you need to run your own OAuth 2.0 Provider Server.', 'wp-oauth' ), $this->version ); ?></div>
 			<div class="wo-badge">Version <?php echo $this->version; ?></div>
 
 			<h2 class="nav-tab-wrapper">
@@ -172,23 +172,11 @@ class WO_Server {
 
 					<div class="feature-section">
 						<div class="col">
-							<h3>Version <?php echo $this->version; ?> is a Feature Release...</h3>
+							<h3>Version <?php echo $this->version; ?> is a minor Release...</h3>
 							<p>
 								<ul>
 									<li>
-										- WordPress OAuth Server now works without permalinks set.
-									</li>
-									<li>
-										- Now Supports OpenID Connect.
-									</li>
-									<li>
-										- Added <code>public_key</code> endpoint. OAuth/public_key
-									</li>
-									<li>
-										- More stable upgrade functionality.
-									</li>
-									<li>
-										- Minor cleanup and bug fixes.
+										- OpenID TOKEN_ID_TOKEN bug.
 									</li>
 								</ul>
 							</p>
@@ -196,14 +184,29 @@ class WO_Server {
 						<div class="col">
 							<h3>White board</h3>
 							<p>
-								3.0.5 was a big feature released. Now that the plugin supports OpenID Connect 1.0a
-								we will be concentrating on making the platform more stable and compatible with common
-								platforms. 
+								<?php echo $this->version; ?> is a minor release fixing only one known bug. We will continue to enhance the documentation
+								and extendability of the plugin.
 							</p>
 							<p>
-								Currently in the plugin life cycle, we will be pushing updates each 3 months or when needed
-								for security. Check out <a href="https://wp-oauth.com" target="_blank">https://wp-oauth.com</a>
-								for updates and information.
+								If you have any suggestions, please feel free to create a 
+								<a href="https://wp-oauth.com/account/submit-ticket/" target="_blank">support request</a> 
+								and let us know all about it.
+							</p>
+						</div>
+					</div>
+
+					<div class="feature-section">
+						<div class="col">
+							<h3>Intro Video</h3>
+							<p>
+								We are currently putting together a welcome video of WP OAuth Server. It will be place here 
+								in all future releases.
+							</p>
+						</div>
+						<div class="col">
+							<h3>Credits</h3>
+							<p>
+								WP OAuth Team and community.
 							</p>
 						</div>
 					</div>

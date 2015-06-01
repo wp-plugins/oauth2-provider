@@ -5,7 +5,7 @@ Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO, OpenID Connect, OIDC, OpenID, Connect
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 3.0.7
+Stable tag: 3.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,3 +166,9 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 
 = 3.0.7 =
 * Bug fix in OpenID
+
+= 3.0.8 =
+* Switched JWT Signing to uses RS256 instead of HS256.
+* Added OpenID Discovery with REQUIRED fields and values.
+* "sub" now complies with OpenID specs for format type.
+* Added JWT return for public key when using OpenID Discovery.

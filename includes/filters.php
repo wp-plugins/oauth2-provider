@@ -23,9 +23,8 @@ function wo_api_error_setup($errors) {
  */
 add_filter('wo_server_keys', 'wo_server_key_location', 1);
 function wo_server_key_location($keys) {
-	$keys['public'] = WOABSPATH . '/library/keys/id_rsa.pub';
-	$keys['private'] = WOABSPATH . '/library/keys/id_rsa';
-
+	$keys['public'] = WOABSPATH . '/library/keys/public_key.pem';
+	$keys['private'] = WOABSPATH . '/library/keys/private_key.pem';
 	return $keys;
 }
 

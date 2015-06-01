@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.0.7";
+	public $version = "3.0.8";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -128,7 +128,7 @@ class WO_Server {
 		add_dashboard_page(
 			__( 'About WP OAuth',  'wp-oauth' ),
 			__( 'About WP OAuth',  'wp-oauth' ),
-			'read',
+			'manage_options',
 			'wpo-about',
 			array( $this, 'about_screen' )
 		);
@@ -176,7 +176,16 @@ class WO_Server {
 							<p>
 								<ul>
 									<li>
-										- OpenID TOKEN_ID_TOKEN bug.
+										- OpenID Discovery Added.
+									</li>
+									<li>
+										- RS256 is now firmly supported and used for signing JWT
+									</li>
+									<li>
+										- Updated keys to prepare for dynamic server signing for increased security
+									</li>
+									<li>
+										- Other minor bug fixes
 									</li>
 								</ul>
 							</p>
@@ -184,8 +193,7 @@ class WO_Server {
 						<div class="col">
 							<h3>White board</h3>
 							<p>
-								<?php echo $this->version; ?> is a minor release fixing only one known bug. We will continue to enhance the documentation
-								and extendability of the plugin.
+								<?php echo $this->version; ?> is a minor release fixing some minors bugs bug mainly a lot of OpenID enhancements for Apache module support.
 							</p>
 							<p>
 								If you have any suggestions, please feel free to create a 
@@ -206,7 +214,7 @@ class WO_Server {
 						<div class="col">
 							<h3>Credits</h3>
 							<p>
-								WP OAuth Team and community.
+								WP OAuth Team and Community.
 							</p>
 						</div>
 					</div>

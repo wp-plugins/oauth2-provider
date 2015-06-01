@@ -8,7 +8,7 @@ namespace OAuth2\Encryption;
  */
 class Jwt implements EncryptionInterface
 {
-    public function encode($payload, $key, $algo = 'HS256')
+    public function encode($payload, $key, $algo = 'RS256')
     {
         $header = $this->generateJwtHeader($payload, $algo);
 
@@ -88,7 +88,7 @@ class Jwt implements EncryptionInterface
         }
     }
 
-    private function sign($input, $key, $algo = 'HS256')
+    private function sign($input, $key, $algo = 'RS256')
     {
         switch ($algo) {
             case 'HS256':

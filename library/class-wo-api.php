@@ -24,13 +24,14 @@ if ($o["enabled"] == 0) {
 
 global $wp_query;
 $method = $wp_query->get("oauth");
+$well_known = $wp_query->get("well-known");
 $storage = new OAuth2\Storage\Wordpressdb();
 $server = new OAuth2\Server($storage,
 	array(
 		'use_crypto_tokens' => false,
 		'store_encrypted_token_string' => false,
 		'use_openid_connect' => $o['use_openid_connect'] == '' ? false : $o['use_openid_connect'],
-		'issuer' => 'wpoauth',
+		'issuer' => site_url( null, 'https' ),
 		'id_lifetime' => $o['id_token_lifetime'] == '' ? 3600 : $o['id_token_lifetime'],
 		'access_lifetime' => $o['access_token_lifetime'] == '' ? 3600 : $o['access_token_lifetime'],
 		'refresh_token_lifetime' => $o['refresh_token_lifetime'] == '' ? 86400 : $o['refresh_token_lifetime'],
@@ -55,6 +56,7 @@ $server = new OAuth2\Server($storage,
 | my end. None the less, these are controlled in the server settings page.
 |
  */
+$support_grant_types = array();
 if ($o['auth_code_enabled'] == '1') {
 	$server->addGrantType(new OAuth2\GrantType\AuthorizationCode($storage));
 }
@@ -148,12 +150,38 @@ if ($method == 'authorize') {
 | Presents the generic public key for signing.
 |	@since 3.0.5
 */
-if ($method == 'public_cert') {
-	$publicKey = file_get_contents(dirname(__FILE__). '/keys/id_rsa.pub');
+if ($well_known  == 'keys') {
+	$keys = apply_filters('wo_server_keys', null);
+	$publicKey = preg_replace('/\s+/', ' ', trim(file_get_contents($keys['public'])));
+	$privateKey = preg_replace('/\s+/', ' ', trim(file_get_contents($keys['private'])));
 	$response = new OAuth2\Response(array(
-		'success' => true,
-		'cert' => $publicKey
+		'jwt' => array(
+			'alg' => 'RSA',
+			'mod' => $publicKey
+			)
 	));
+	$response->send();
+}
+
+/*
+|--------------------------------------------------------------------------
+| OpenID Discovery
+|--------------------------------------------------------------------------
+|
+| Presents a basic json encoded response for OpenID Discovery.
+| - issuer MUST be HTTPS and match 
+*/
+if ($well_known == 'openid-configuration') {
+	$openid_configuration = array(
+		'issuer' => site_url( null, 'https' ),
+	  'authorization_endpoint' => site_url( '?oauth=authorize' ),
+	  'token_endpoint' => site_url( '?oauth=token' ),
+	  'jwks_uri' => site_url( '?well-known=keys' ),
+	  'response_types_supported' => array( 'code', 'id_token', 'token id_token', 'code id_token' ),
+	  'subject_types_supported' => array( 'public' ),
+		'id_token_signing_alg_values_supported' => array( 'RS256' )
+	);
+	$response = new OAuth2\Response( $openid_configuration );
 	$response->send();
 }
 

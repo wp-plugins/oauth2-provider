@@ -284,13 +284,13 @@ class Wordpressdb implements
      *
      * @since 3.0.5-alpha Claims are handled manually since it just makes more sense this way
      */
-    public function getUserClaims($user_id, $claims) {
+    public function getUserClaims( $user_id, $claims ) {
         
         // Grab the user information for the ID
-        $userInfo = get_userdata($user_id);
+        $userInfo = get_userdata( $user_id );
 
         // Split up the claims
-        $claims = explode(' ', trim($claims));
+        $claims = explode( ' ', trim( $claims ) );
 
         // User claims array
         $userClaims = array();

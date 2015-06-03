@@ -31,7 +31,7 @@ $server = new OAuth2\Server($storage,
 		'use_crypto_tokens' => false,
 		'store_encrypted_token_string' => false,
 		'use_openid_connect' => $o['use_openid_connect'] == '' ? false : $o['use_openid_connect'],
-		'issuer' => site_url( null, 'https' ),
+		'issuer' => site_url( null, 'https' ), // Must be HTTPS
 		'id_lifetime' => $o['id_token_lifetime'] == '' ? 3600 : $o['id_token_lifetime'],
 		'access_lifetime' => $o['access_token_lifetime'] == '' ? 3600 : $o['access_token_lifetime'],
 		'refresh_token_lifetime' => $o['refresh_token_lifetime'] == '' ? 86400 : $o['refresh_token_lifetime'],
@@ -152,12 +152,18 @@ if ($method == 'authorize') {
 */
 if ($well_known  == 'keys') {
 	$keys = apply_filters('wo_server_keys', null);
-	$publicKey = preg_replace('/\s+/', ' ', trim(file_get_contents($keys['public'])));
-	$privateKey = preg_replace('/\s+/', ' ', trim(file_get_contents($keys['private'])));
+	$publicKey = openssl_pkey_get_public( file_get_contents($keys['public']) );
+	$publicKey = openssl_pkey_get_details( $publicKey );
+	//print_r($publicKey); exit;
 	$response = new OAuth2\Response(array(
-		'jwt' => array(
-			'alg' => 'RSA',
-			'mod' => $publicKey
+		'keys' => array(
+			array(
+				'kty' => 'RSA',
+				'alg' => 'RS256',
+				'use' => 'sig',
+				'n' =>  base64_encode( $publicKey['rsa']['n'] ),
+				'e' =>  base64_encode( $publicKey['rsa']['e'] )
+				)
 			)
 	));
 	$response->send();
@@ -174,9 +180,10 @@ if ($well_known  == 'keys') {
 if ($well_known == 'openid-configuration') {
 	$openid_configuration = array(
 		'issuer' => site_url( null, 'https' ),
-	  'authorization_endpoint' => site_url( '?oauth=authorize' ),
-	  'token_endpoint' => site_url( '?oauth=token' ),
-	  'jwks_uri' => site_url( '?well-known=keys' ),
+	  'authorization_endpoint' => site_url( '/oauth/authorize' ),
+	  'token_endpoint' => site_url( 'oauth/token' ),
+	  'userinfo_endpoint' => site_url( '/oauth/me' ),
+	  'jwks_uri' => site_url( '/.well-known/keys' ),
 	  'response_types_supported' => array( 'code', 'id_token', 'token id_token', 'code id_token' ),
 	  'subject_types_supported' => array( 'public' ),
 		'id_token_signing_alg_values_supported' => array( 'RS256' )

@@ -5,7 +5,7 @@ Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO, OpenID Connect, OIDC, OpenID, Connect
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 3.0.8
+Stable tag: 3.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,7 +32,7 @@ The goal of WP OAuth Server is to provide an easy to use authorization method th
 * User Credentials
 * Client Credentials
 * Refresh Token
-* OpenID Connect
+* OpenID Connect with discovery
 
 = How to Use =
 
@@ -172,3 +172,8 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 * Added OpenID Discovery with REQUIRED fields and values.
 * "sub" now complies with OpenID specs for format type.
 * Added JWT return for public key when using OpenID Discovery.
+
+= 3.0.9 =
+* Added userinfo endpoint to /.well-known/openid-configuration 
+* Fixed improper return of keys when for public facing /.well-known
+* Auto generation of new certificates during activation to ensure all server have a different signature

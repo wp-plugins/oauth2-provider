@@ -203,6 +203,7 @@ class WPOAuth_Admin {
 			              </td>
 			            <?php endif; ?>
 			          </tr>
+			          
 							</table>
 
 							<h3>Token Lifetimes <?php echo !_vl()? ' <i style="color:red;font-size:14px;">License Required</i>':'';?> <hr></h3>
@@ -297,6 +298,13 @@ class WPOAuth_Admin {
 					  			<td>
 					  				<?php echo substr(php_sapi_name(), 0, 3) != 'cgi' ? " <span style='color:green;'>OK</span>" : " <span style='color:orange;'>Notice</span> - <small>Header 'Authorization Basic' may not work as expected.</small>";?>
 					  			</td>
+					  		</tr>
+
+					  		<tr>
+					  			<th style="text-align:right;">Certificates Generated: </th>
+					  			<td>
+										<?php echo !wo_has_certificates() ? " <span style='color:red;'>No Certificates Found</span>" : "<span style='color:green;'>Certificates Found</span>"?>
+									</td>
 					  		</tr>
 
 					  		<tr>

@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.0.8";
+	public $version = "3.0.9";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -176,13 +176,13 @@ class WO_Server {
 							<p>
 								<ul>
 									<li>
-										- OpenID Discovery Added.
+										- /.well-known/keys format fixed. It now uses the proper format
 									</li>
 									<li>
-										- RS256 is now firmly supported and used for signing JWT
+										- Added userinfo endpoint to /.well-known configuration
 									</li>
 									<li>
-										- Updated keys to prepare for dynamic server signing for increased security
+										- Auto creation of certificate for servers that support it.
 									</li>
 									<li>
 										- Other minor bug fixes
@@ -341,6 +341,20 @@ class WO_Server {
 		dbDelta($sql5);
 		dbDelta($sql6);
 		dbDelta($sql7);
+
+		/**
+		 * Create Certificates for Signing
+		 */
+		if(function_exists('openssl_pkey_new')){
+			$res = openssl_pkey_new();
+			openssl_pkey_export($res, $privKey);
+			file_put_contents(dirname(WPOAUTH_FILE) . '/library/keys/private_key.pem', $privKey);
+
+			$pubKey = openssl_pkey_get_details($res);
+			$pubKey = $pubKey["key"];
+			file_put_contents(dirname(WPOAUTH_FILE) . '/library/keys/public_key.pem', $pubKey);
+		}
+
 	}
 
 	/**

@@ -166,3 +166,12 @@ function get_private_server_key () {
 	$keys = apply_filters('wo_server_keys', null);
 	return file_get_contents($keys['private']);
 }
+
+/**
+ * Check to see if there is certificates that have been generated
+ * @return boolean [description]
+ */
+function wo_has_certificates (){
+	return file_exists( dirname(WPOAUTH_FILE) . '/library/keys/public_key.pem' ) 
+	&& file_exists( dirname(WPOAUTH_FILE) . '/library/keys/private_key.pem' );
+}

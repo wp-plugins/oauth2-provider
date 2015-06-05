@@ -158,13 +158,23 @@ function wordpress_oauth_firewall_init() {
 }
 
 /**
- * Return the set private key for signing
+ * Return the private key for signing
  * @since 3.0.5
  * @return [type] [description]
  */
 function get_private_server_key () {
 	$keys = apply_filters('wo_server_keys', null);
-	return file_get_contents($keys['private']);
+	return file_get_contents( $keys['private'] );
+}
+
+/**
+ * Returns the public key
+ * @return [type] [description]
+ * @since 3.1.0
+ */
+function get_public_server_key () {
+	$keys = apply_filters('wo_server_keys', null);
+	return file_get_contents( $keys['public'] );
 }
 
 /**

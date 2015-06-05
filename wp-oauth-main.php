@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.0.9";
+	public $version = "3.1.0";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -168,53 +168,62 @@ class WO_Server {
 
 				<!-- Feature Headline -->
 				<div class="changelog headline-feature">
-					<h2>So What's New?</h2>
+					
+					<div style="text-align: center;">
+						<h2 style="text-align: center;">So What's New?</h2>
+						<strong>
+							This release of WP OAuth Server is a big one when it comes to OpenID Connect and some big name OpenID clients. 
+						</strong>
+					</div>
 
 					<div class="feature-section">
 						<div class="col">
-							<h3>Version <?php echo $this->version; ?> is a minor Release...</h3>
+							<h3>Version <?php echo $this->version; ?> changelog</h3>
 							<p>
 								<ul>
 									<li>
-										- /.well-known/keys format fixed. It now uses the proper format
+										- Added OpenSSL bit length arguments.
 									</li>
 									<li>
-										- Added userinfo endpoint to /.well-known configuration
+										- Added urlSafeBase64 encoding to Modulus and Exponent.
 									</li>
 									<li>
-										- Auto creation of certificate for servers that support it.
+										- Tweak redirect location in API when a user is not logged in.
 									</li>
 									<li>
-										- Other minor bug fixes
+										- Other minor bug fixes and enhancements.
 									</li>
 								</ul>
 							</p>
 						</div>
 						<div class="col">
-							<h3>White board</h3>
+							<h3>OpenID Discovery</h3>
 							<p>
-								<?php echo $this->version; ?> is a minor release fixing some minors bugs bug mainly a lot of OpenID enhancements for Apache module support.
+								<?php echo $this->version; ?> adds support for OpenID Discovery. If you are serious about OpenID, then this feature meets you in the middle.
 							</p>
-							<p>
-								If you have any suggestions, please feel free to create a 
-								<a href="https://wp-oauth.com/account/submit-ticket/" target="_blank">support request</a> 
-								and let us know all about it.
-							</p>
+							<img src="<?php echo plugins_url('assets/images/openid-config-json.png', WPOAUTH_FILE ); ?>" />
 						</div>
 					</div>
 
 					<div class="feature-section">
 						<div class="col">
-							<h3>Intro Video</h3>
+							<h3>Server Signing</h3>
 							<p>
-								We are currently putting together a welcome video of WP OAuth Server. It will be place here 
-								in all future releases.
+								<?php echo $this->version; ?> adds even more security by signing OpenID tokens. This makes your OAuth Server have its own finger print which then can be verified at any point by a client.
 							</p>
+							<div style="text-align: center">
+								<img src="<?php echo plugins_url('assets/images/cer.png', WPOAUTH_FILE ); ?>" />
+							</div>
 						</div>
 						<div class="col">
 							<h3>Credits</h3>
 							<p>
-								WP OAuth Team and Community.
+								It is never a one person job to make a product like WP OAuth Server. Whether it the core team or the community, we want to make sure that they get the credit they deserve.
+								<ul>
+									<li>- WP OAuth Core Development Team</li>
+									<li>- Frédéric Auguste for the continuous support.</li>
+									<li>- Michael Militzer for providing info for mod_auth_openidc.</li>
+								</ul>
 							</p>
 						</div>
 					</div>
@@ -346,7 +355,10 @@ class WO_Server {
 		 * Create Certificates for Signing
 		 */
 		if(function_exists('openssl_pkey_new')){
-			$res = openssl_pkey_new();
+			$res = openssl_pkey_new(array(
+			    "private_key_bits" => 2048,
+			    "private_key_type" => OPENSSL_KEYTYPE_RSA,
+			));
 			openssl_pkey_export($res, $privKey);
 			file_put_contents(dirname(WPOAUTH_FILE) . '/library/keys/private_key.pem', $privKey);
 

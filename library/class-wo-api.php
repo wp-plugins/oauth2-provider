@@ -132,8 +132,8 @@ if ($method == 'authorize') {
 	}
 
 	do_action('wo_before_authorize_method');
-	if (!is_user_logged_in()) {
-		wp_redirect(wp_login_url(site_url() . $_SERVER['REQUEST_URI']));
+	if (! is_user_logged_in() ) {
+		wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
 		exit;
 	}
 
@@ -152,17 +152,16 @@ if ($method == 'authorize') {
 */
 if ($well_known  == 'keys') {
 	$keys = apply_filters('wo_server_keys', null);
-	$publicKey = openssl_pkey_get_public( file_get_contents($keys['public']) );
+	$publicKey = openssl_pkey_get_public( file_get_contents( $keys['public'] ) );
 	$publicKey = openssl_pkey_get_details( $publicKey );
-	//print_r($publicKey); exit;
-	$response = new OAuth2\Response(array(
+	$response = new OAuth2\Response( array(
 		'keys' => array(
 			array(
 				'kty' => 'RSA',
 				'alg' => 'RS256',
 				'use' => 'sig',
-				'n' =>  base64_encode( $publicKey['rsa']['n'] ),
-				'e' =>  base64_encode( $publicKey['rsa']['e'] )
+				'n' =>  strtr( base64_encode( $publicKey['rsa']['n'] ), '+/=', '-_,'),
+				'e' =>  strtr( base64_encode( $publicKey['rsa']['e'] ), '+/=', '-_,')
 				)
 			)
 	));
@@ -223,5 +222,11 @@ if (array_key_exists($method, $ext_methods)) {
 	exit;
 }
 
-// Loaner
+/**
+ * Server error response. End of line
+ * @since 3.1.0
+ */
+$response = new OAuth2\Response();
+$response->setError(400, 'invalid_request', 'Unknown request');
+$response->send();
 exit;

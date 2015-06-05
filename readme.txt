@@ -177,3 +177,8 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 * Added userinfo endpoint to /.well-known/openid-configuration 
 * Fixed improper return of keys when for public facing /.well-known
 * Auto generation of new certificates during activation to ensure all server have a different signature
+
+= 3.1.0 =
+* Added specific OpenSSL bit length for systems that are not create keys at 2048 by default.
+* Added urlSafeBase64 encoding to Modulus and Exponent on delivery.
+* Tweak redirect location in API when a user is not logged in.

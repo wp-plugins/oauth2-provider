@@ -5,7 +5,7 @@ Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO, OpenID Connect, OIDC, OpenID, Connect
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,18 +93,72 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 
 == Changelog ==
 
-= 1.0.0 =
-* INITIAL BUILD
+= 3.1.1 =
+* Client name is not clickable to show edit popup
+* Fixed issue with missing exits in API
 
-= 1.0.1 =
-* Re-worked Readme.txt
-* Fixed absolute paths causing 404 Error when WordPress is running under a sub directory (Using admin_url() currently)
+= 3.1.0 =
+* Added specific OpenSSL bit length for systems that are not create keys at 2048 by default.
+* Added urlSafeBase64 encoding to Modulus and Exponent on delivery.
+* Tweak redirect location in API when a user is not logged in
 
-= 1.0.2 = 
-* Fixed Broken login redirect
+= 3.0.9 =
+* Added userinfo endpoint to /.well-known/openid-configuration 
+* Fixed improper return of keys when for public facing /.well-known
+* Auto generation of new certificates during activation to ensure all server have a different signature
 
-= 1.0.3 =
-* Fixed Admin URL links for plugin dashboard
+= 3.0.8 =
+* Switched JWT Signing to uses RS256 instead of HS256.
+* Added OpenID Discovery with REQUIRED fields and values.
+* "sub" now complies with OpenID specs for format type.
+* Added JWT return for public key when using OpenID Discovery.
+
+= 3.0.7 =
+* Bug fix in OpenID
+
+= 3.0.6 =
+* Fixed "Undefined Error" in Authorization Controller. Credit to Frédéric. Thank You!
+* Remove "Redirect URI" Column from clients table to clean up table on smaller screens.
+* Updated banner and plugin icon.
+
+= 3.0.5 =
+* Removed permalink check. OAuth Server now works without the use of permalinks.
+* Fixed install functionality. Not all tables were being installed.
+* Added support for cytpto tokens.
+* Added OpenID Connect abilities.
+* Mapped OpenID Claims to default user values
+* Added index to token table and increased access_token length to support crypto tokens in the future.
+* Added "email" to default me resource to support OpenID Connect 1.0
+* Added generic key signing for all clients.
+* Added public endpoint for verifying id_token (/oauth/public_key)
+
+= 3.0.4 = 
+* Updated Readme.txt content
+* Add more descriptive text during PHP version check
+* Fixed license links
+* Added Access Token and Refresh Token lifetime settings
+* Added upgrade method to ensure proper installing of new features
+
+= 3.0.3 =
+* Modified how clients are added and edited
+* Add Pro Features
+* Added additional information to "Server Status" Tab
+* Minor Clean Up
+
+= 3.0.2 =
+* Re added Authorization Code Enable Option
+* API unavailable error now uses OAuth Response object
+* API now reports when access token is not provided during resource calls
+
+= 3.0.1 =
+* Updated cover image.
+* Fixed documentation links.
+* Added "Server Status" tab
+* Cleaned up "Advanced Configuration" contents.
+
+= 3.0.0 =
+* Updated and rebuilt structure.
+* Visit <a href="http://wp-oauth.com">http://wp-oauth.com</a> for documentation and more information.
 
 = 2.0.0 =
 * Rebuild init plugin code structure for more flexibility and scalability.
@@ -120,65 +174,15 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 * Add legacy installer that will hopefully keep old data in tacked while updating to the new structure with no data loss.
 * Removed plugin logging as it was not really needed and caused more issues that it was worth.
 
-= 3.0.0 =
-* Updated and rebuilt structure.
-* Visit <a href="http://wp-oauth.com">http://wp-oauth.com</a> for documentation and more information.
+= 1.0.3 =
+* Fixed Admin URL links for plugin dashboard
 
-= 3.0.1 =
-* Updated cover image.
-* Fixed documentation links.
-* Added "Server Status" tab
-* Cleaned up "Advanced Configuration" contents.
+= 1.0.2 = 
+* Fixed Broken login redirect
 
-= 3.0.2 =
-* Re added Authorization Code Enable Option
-* API unavailable error now uses OAuth Response object
-* API now reports when access token is not provided during resource calls
+= 1.0.1 =
+* Re-worked Readme.txt
+* Fixed absolute paths causing 404 Error when WordPress is running under a sub directory (Using admin_url() currently)
 
-= 3.0.3 =
-* Modified how clients are added and edited
-* Add Pro Features
-* Added additional information to "Server Status" Tab
-* Minor Clean Up
-
-= 3.0.4 = 
-* Updated Readme.txt content
-* Add more descriptive text during PHP version check
-* Fixed license links
-* Added Access Token and Refresh Token lifetime settings
-* Added upgrade method to ensure proper installing of new features
-
-= 3.0.5 =
-* Removed permalink check. OAuth Server now works without the use of permalinks.
-* Fixed install functionality. Not all tables were being installed.
-* Added support for cytpto tokens.
-* Added OpenID Connect abilities.
-* Mapped OpenID Claims to default user values
-* Added index to token table and increased access_token length to support crypto tokens in the future.
-* Added "email" to default me resource to support OpenID Connect 1.0
-* Added generic key signing for all clients.
-* Added public endpoint for verifying id_token (/oauth/public_key)
-
-= 3.0.6 =
-* Fixed "Undefined Error" in Authorization Controller. Credit to Frédéric. Thank You!
-* Remove "Redirect URI" Column from clients table to clean up table on smaller screens.
-* Updated banner and plugin icon.
-
-= 3.0.7 =
-* Bug fix in OpenID
-
-= 3.0.8 =
-* Switched JWT Signing to uses RS256 instead of HS256.
-* Added OpenID Discovery with REQUIRED fields and values.
-* "sub" now complies with OpenID specs for format type.
-* Added JWT return for public key when using OpenID Discovery.
-
-= 3.0.9 =
-* Added userinfo endpoint to /.well-known/openid-configuration 
-* Fixed improper return of keys when for public facing /.well-known
-* Auto generation of new certificates during activation to ensure all server have a different signature
-
-= 3.1.0 =
-* Added specific OpenSSL bit length for systems that are not create keys at 2048 by default.
-* Added urlSafeBase64 encoding to Modulus and Exponent on delivery.
-* Tweak redirect location in API when a user is not logged in.
+= 1.0.0 =
+* INITIAL BUILD

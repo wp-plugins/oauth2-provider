@@ -3,9 +3,9 @@
 Contributors: justingreerbbi
 Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO, OpenID Connect, OIDC, OpenID, Connect
-Requires at least: 3.9
-Tested up to: 4.2
-Stable tag: 3.1.1
+Requires at least: 4.2
+Tested up to: 4.2.2
+Stable tag: 3.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,8 +93,14 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 
 == Changelog ==
 
+= 3.1.2 =
+* Patch to possible exploit when editing a client.
+* Slight UI changes.
+* Patched auth code table for large id_tokens.
+* Fixed security issue with token lifetime.
+
 = 3.1.1 =
-* Client name is not clickable to show edit popup
+* Client name is not click able to show edit popup
 * Fixed issue with missing exits in API
 
 = 3.1.0 =

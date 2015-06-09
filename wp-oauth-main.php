@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.1.1";
+	public $version = "3.1.2";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -310,7 +310,7 @@ class WO_Server {
         redirect_uri        VARCHAR(2000),
         expires             TIMESTAMP      NOT NULL,
         scope               VARCHAR(4000),
-        id_token            VARCHAR(1000),
+        id_token            VARCHAR(3000),
         PRIMARY KEY (authorization_code)
       );
 			";
@@ -342,6 +342,9 @@ class WO_Server {
       );
 			";
 
+		/** LEGACY id_token PATCH - REMOVE IN VERSION 3.2.0*/
+		$wpdb->query("ALTER TABLE {$wpdb->prefix}oauth_authorization_codes MODIFY id_token VARCHAR(3000)");
+
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta($sql1);
 		dbDelta($sql2);
@@ -353,6 +356,8 @@ class WO_Server {
 
 		/**
 		 * Create Certificates for Signing
+		 *
+		 * @todo Handle error here. Possibly deactivate the plugin!?
 		 */
 		if(function_exists('openssl_pkey_new')){
 			$res = openssl_pkey_new(array(
@@ -394,6 +399,7 @@ class WO_Server {
 			$options['use_openid_connect'] = 3600;
 
 		update_option('wo_options', $options);
+
 	}
 
 }

@@ -19,7 +19,11 @@ if(!current_user_can('manage_options') || !isset($_GET['client_id']))
 	exit('Unauthorized Access');
 
 global $wpdb;
-$client_info = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}oauth_clients WHERE client_id='$_GET[client_id]'");
+$client_info = $wpdb->get_row($wpdb->prepare("
+	SELECT * 
+	FROM {$wpdb->prefix}oauth_clients 
+	WHERE client_id='%s'", array($_GET['client_id']))
+);
 
 /** simple check if the client exists */
 if(!$client_info)

@@ -54,8 +54,9 @@ class WPOAuth_Admin {
 		?>
 			<div class="wrap">
 	      <img style="width:40px; float: left; diplay: inline; margin-right: 10px; margin-top: 5px;" src="<?php echo plugins_url('/assets/images/logo.png', WPOAUTH_FILE); ?>" />
-	      <h2>WP OAuth Server</h2>
-	      <p>Need some help? <a class="button" href="https://wp-oauth.com/knowledge-base">Check out the Documentation</a></p>
+	      <h2>WP OAuth Server <strong><small> | v <?php echo _WO()->version; ?></small></strong></h2>
+	     	<br/>
+	     	<p></p>
       	<form method="post" action="options.php">
 					<?php settings_fields('wo_options');?>
         	<div id="wo_tabs">

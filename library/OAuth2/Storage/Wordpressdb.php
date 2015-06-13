@@ -155,7 +155,6 @@ class Wordpressdb implements
      */
     public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope=null) 
     {   
-        $expires = strtotime("+10 years", $expires);
         $expires = date('Y-m-d H:i:s', $expires);
         if ($this->getAccessToken($access_token)) {
             $stmt = $this->db->prepare("UPDATE {$this->db->prefix}oauth_access_tokens SET client_id=%s, expires=%s, user_id=%s, scope=%s where access_token=%s", array($client_id, $expires, $user_id, $scope, $access_token));
@@ -373,9 +372,10 @@ class Wordpressdb implements
      */
     public function getRefreshToken( $refresh_token ) 
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->db->prefix}oauth_refresh_tokens WHERE refresh_token = %s", array($refresh_token));
+        $stmt = $this->db->prepare("SELECT * FROM {$this->db->prefix}oauth_refresh_tokens WHERE refresh_token = %s", array($refresh_token), ARRAY_A);
         $stmt = $this->db->get_row($stmt);
         
+        $token = null;
         if (null != $stmt) {
             $token['expires'] = strtotime($token['expires']);
         }

@@ -107,6 +107,7 @@ $server->setScopeUtil($scopeUtil);
 if ($method == 'token') {
 	do_action('wo_before_token_method');
 	$server->handleTokenRequest(OAuth2\Request::createFromGlobals())->send();
+	exit;
 }
 
 /*
@@ -125,10 +126,9 @@ if ($method == 'token') {
 if ($method == 'authorize') {
 	$request = OAuth2\Request::createFromGlobals();
 	$response = new OAuth2\Response();
-
 	if (!$server->validateAuthorizeRequest($request, $response)) {
 		$response->send();
-		die;
+		exit;
 	}
 
 	do_action('wo_before_authorize_method');
@@ -166,6 +166,7 @@ if ($well_known  == 'keys') {
 			)
 	));
 	$response->send();
+	exit;
 }
 
 /*
@@ -189,6 +190,7 @@ if ($well_known == 'openid-configuration') {
 	);
 	$response = new OAuth2\Response( $openid_configuration );
 	$response->send();
+	exit;
 }
 
 /*
@@ -211,7 +213,7 @@ if (array_key_exists($method, $ext_methods)) {
 	if (!$server->verifyResourceRequest(OAuth2\Request::createFromGlobals())) {
 		$response->setError(400, 'invalid_request', 'Missing or invalid parameter(s)');
 		$response->send();
-		die;
+		exit;
 	}
 	$token = $server->getAccessTokenData(OAuth2\Request::createFromGlobals());
 	if (is_null($token)) {

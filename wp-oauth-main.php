@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress OAuth Server Mian Class
+ * WordPress OAuth Server Main Class
  * Responsible for being the main handler
  *
  * @author Justin Greer <justin@justin-greer.com>
@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.1.0";
+	public $version = "3.1.3";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -49,9 +49,59 @@ class WO_Server {
 		}
 		spl_autoload_register(array($this, 'autoload'));
 
-		/** load all dependents */
+		/**
+		 * Custom auth hook
+		 * This MUST run before anything just to be safe. 20 seems to be the highest so we will stay close with 
+		 * priority set to 21
+		 *
+		 * @since 3.1.3
+		 */
+		add_filter( 'determine_current_user', array($this, '_wo_authenicate_bypass'), 21);
+
+		/** 
+		 * load all dependents
+		 *
+		 * @since 1.0.0
+		 */
 		add_action("init", array(__CLASS__, "includes"));
 
+	}
+
+	/**
+	 * Awesomeness for 3rd party support
+	 * 
+	 * Filter; determine_current_user
+	 * Other Filter: check_authentication
+	 *
+	 * This creates a hook in the determine_current_user filter that can check for a valid access_token and 
+	 * user services like WP JSON API and WP REST API.
+	 * @param  [type] $o [description]
+	 * @return [type]    [description]
+	 *
+	 * @author Mauro Constantinescu Modified slightly but still a contribution to the project.
+	 */
+	public function _wo_authenicate_bypass( $user_id ) {
+	
+		if ( $user_id && $user_id > 0 ) return $user_id;
+		$o = get_option( 'wo_options' );
+		if ( $o['enabled'] == 0 ) return $user_id;
+		
+		require_once( dirname( WPOAUTH_FILE ) . '/library/OAuth2/Autoloader.php');
+
+		/**
+		 * Since the server is ran only on API calls we can not simply
+		 * place this into the API or run a global variable = BOOOO
+		 *
+		 * Load the server generically
+		 */
+		OAuth2\Autoloader::register();
+		$server = new OAuth2\Server( new OAuth2\Storage\Wordpressdb() );
+		$request = OAuth2\Request::createFromGlobals();
+		if ( $server->verifyResourceRequest( $request ) ) {
+			$token = $server->getAccessTokenData( $request );
+			if ( isset( $token['user_id'] ) && $token['user_id'] > 0 )
+				return $token['user_id'];	
+		}
 	}
 
 	/**
@@ -91,9 +141,9 @@ class WO_Server {
 	 */
 	public static function includes() {
 		require_once dirname(__FILE__) . '/includes/functions.php';
+		require_once dirname(__FILE__) . '/includes/filters.php';
 		require_once dirname(__FILE__) . '/includes/admin-options.php';
 		require_once dirname(__FILE__) . '/includes/rewrites.php';
-		require_once dirname(__FILE__) . '/includes/filters.php';
 
 		/** include the ajax class if DOING_AJAX is defined */
 		if (defined('DOING_AJAX')) {
@@ -182,24 +232,18 @@ class WO_Server {
 							<p>
 								<ul>
 									<li>
-										- Added OpenSSL bit length arguments.
+										- Forced all expires_in parameter in JSON to be an integer.
 									</li>
 									<li>
-										- Added urlSafeBase64 encoding to Modulus and Exponent.
-									</li>
-									<li>
-										- Tweak redirect location in API when a user is not logged in.
-									</li>
-									<li>
-										- Other minor bug fixes and enhancements.
+										- Add determine_current_user hook.
 									</li>
 								</ul>
 							</p>
 						</div>
 						<div class="col">
-							<h3>OpenID Discovery</h3>
+							<h3>WP REST API SUPPORT</h3>
 							<p>
-								<?php echo $this->version; ?> adds support for OpenID Discovery. If you are serious about OpenID, then this feature meets you in the middle.
+								<?php echo $this->version; ?> adds authentication support for WP REST API.
 							</p>
 							<img src="<?php echo plugins_url('assets/images/openid-config-json.png', WPOAUTH_FILE ); ?>" />
 						</div>
@@ -221,8 +265,7 @@ class WO_Server {
 								It is never a one person job to make a product like WP OAuth Server. Whether it the core team or the community, we want to make sure that they get the credit they deserve.
 								<ul>
 									<li>- WP OAuth Core Development Team</li>
-									<li>- Frédéric Auguste for the continuous support.</li>
-									<li>- Michael Militzer for providing info for mod_auth_openidc.</li>
+									<li>- Mauro Constantinescu WP REST API support.</li>
 								</ul>
 							</p>
 						</div>
@@ -310,7 +353,7 @@ class WO_Server {
         redirect_uri        VARCHAR(2000),
         expires             TIMESTAMP      NOT NULL,
         scope               VARCHAR(4000),
-        id_token            VARCHAR(1000),
+        id_token            VARCHAR(3000),
         PRIMARY KEY (authorization_code)
       );
 			";
@@ -342,6 +385,9 @@ class WO_Server {
       );
 			";
 
+		/** LEGACY id_token PATCH - REMOVE IN VERSION 3.2.0*/
+		$wpdb->query("ALTER TABLE {$wpdb->prefix}oauth_authorization_codes MODIFY id_token VARCHAR(3000)");
+
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta($sql1);
 		dbDelta($sql2);
@@ -353,6 +399,8 @@ class WO_Server {
 
 		/**
 		 * Create Certificates for Signing
+		 *
+		 * @todo Handle error here. Possibly deactivate the plugin!?
 		 */
 		if(function_exists('openssl_pkey_new')){
 			$res = openssl_pkey_new(array(
@@ -394,6 +442,7 @@ class WO_Server {
 			$options['use_openid_connect'] = 3600;
 
 		update_option('wo_options', $options);
+
 	}
 
 }

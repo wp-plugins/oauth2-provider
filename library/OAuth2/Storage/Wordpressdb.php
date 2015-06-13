@@ -372,9 +372,10 @@ class Wordpressdb implements
      */
     public function getRefreshToken( $refresh_token ) 
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->db->prefix}oauth_refresh_tokens WHERE refresh_token = %s", array($refresh_token));
+        $stmt = $this->db->prepare("SELECT * FROM {$this->db->prefix}oauth_refresh_tokens WHERE refresh_token = %s", array($refresh_token), ARRAY_A);
         $stmt = $this->db->get_row($stmt);
         
+        $token = null;
         if (null != $stmt) {
             $token['expires'] = strtotime($token['expires']);
         }

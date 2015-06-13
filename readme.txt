@@ -5,7 +5,7 @@ Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO, OpenID Connect, OIDC, OpenID, Connect
 Requires at least: 4.2
 Tested up to: 4.2.2
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,11 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 1. Adding a Client
 
 == Changelog ==
+
+= 3.1.3 =
+* Forced all expires_in parameter in JSON to be an integer
+* Add determine_current_user hook for WP core authentication functionality
+* Added authentication support for WP REST API
 
 = 3.1.2 =
 * Patch to possible exploit when editing a client.

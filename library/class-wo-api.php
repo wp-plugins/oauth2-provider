@@ -76,18 +76,14 @@ if ($o['refresh_tokens_enabled'] == '1') {
 | DEFAULT SCOPES
 |--------------------------------------------------------------------------
 |
-| For the time being, the plugin will not fully support scopes. This is where
-| the scopes can be registered. This will be extended to be a filter in
-| upcoming release. Modify at your own risk.. This will be wiped upon
-| a plugin update to newer versions.
+| Supported scopes can be added to the plugin by modifying the wo_scopes. 
+| Until further notice, the default scope is 'basic'. Plans are in place to
+| allow this scope to be adjusted.
 |
  */
 $defaultScope = 'basic';
-$supportedScopes = array(
-	'openid',
-	'profile',
-	'email',
-);
+$supportedScopes = apply_filters('wo_scopes', null, 20);
+
 $memory = new OAuth2\Storage\Memory(array(
 	'default_scope' => $defaultScope,
 	'supported_scopes' => $supportedScopes,

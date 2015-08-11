@@ -111,30 +111,14 @@ class AccessToken implements AccessTokenInterface
      * An unique access token.
      *
      * @ingroup oauth2_section_4
+     *
+     * @since 3.1.5
+     * Change to use wp_generate_password() as a token/code generator to address vulnerability on older PHP versions
+     * and Windows server.
      */
-    protected function generateAccessToken()
-    {
-        if (function_exists('mcrypt_create_iv')) {
-            $randomData = mcrypt_create_iv(20, MCRYPT_DEV_URANDOM);
-            if ($randomData !== false && strlen($randomData) === 20) {
-                return bin2hex($randomData);
-            }
-        }
-        if (function_exists('openssl_random_pseudo_bytes')) {
-            $randomData = openssl_random_pseudo_bytes(20);
-            if ($randomData !== false && strlen($randomData) === 20) {
-                return bin2hex($randomData);
-            }
-        } 
-        if (@file_exists('/dev/urandom')) { // Get 100 bytes of random data
-            $randomData = file_get_contents('/dev/urandom', false, null, 0, 20);
-            if ($randomData !== false && strlen($randomData) === 20) {
-                return bin2hex($randomData);
-            }
-        }
-        // Last resort which you probably should just get rid of:
-        $randomData = mt_rand() . mt_rand() . mt_rand() . mt_rand() . microtime(true) . uniqid(mt_rand(), true);
-        return substr(hash('sha512', $randomData), 0, 40);
+    protected function generateAccessToken() {
+        $tokenLen = 40;
+        return strtolower(wp_generate_password( $tokenLen, false, $extra_special_chars = false ));
     }
 
     /**

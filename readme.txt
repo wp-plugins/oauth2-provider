@@ -3,9 +3,9 @@
 Contributors: justingreerbbi
 Donate link: http://justin-greer.com/
 Tags: oauth2, OAuth provider, Provider, OAuth, OAuth client, Single Sign On, SSO, OpenID Connect, OIDC, OpenID, Connect
-Requires at least: 4.2
-Tested up to: 4.2.2
-Stable tag: 3.1.4
+Requires at least: 4.2.4
+Tested up to: 4.2.4
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ Create and Manage an OAuth 2.0 server powered by WordPress. Become a Single Sign
 
 == Description ==
 
-This plugin is a a full OAuth 2.0 authorization server/provider for WordPress. 
+This plugin is a full OAuth 2.0 authorization server/provider for WordPress. 
 The goal of WP OAuth Server is to provide an easy to use authorization method that 3rd party platforms can use to securely authorize users from your WordPress site.
 
 = Features =
@@ -23,8 +23,7 @@ The goal of WP OAuth Server is to provide an easy to use authorization method th
 * Support for Implicit Flow
 * Built-In Resource Server
 * Automated Authorization
-* Expendable and Flexible 
-* Well Documented
+* Extendable
 
 = Supported Grant Types =
 
@@ -41,17 +40,18 @@ WordPress OAuth Server.
 
 = Licensing = 
 
-Visit https://wp-oauth.com for more information about WP OAuth Server licensing.
+WP OAuth Server is free to used. Please support the project by licensing. You can view more information at
+https://wp-oauth.com.
 
 = Minimum Requirements =
 
-* PHP 5.3.9 or greater *(5.4+ recommended)*
+* PHP 5.3.9 or greater *(latest version recommended)*
 * OpenSSL installed and enabled if you plan on using OpenID Connect
 
 = Other Information =
 
-* NOTE: As of 3.0.0, there are no backward compatibility for any version older than 3.0.0. We are working on a migration tool, but as of now any upgrade from 2.x to 3.x will need to be done manually.*
-* NOTE: The plugin will not be supported if you are using a Windows Server.
+* NOTE: As of 3.0.0, there are no backward compatibility for any version older than 3.0.0
+* NOTE: Due to IIS's inability play nice, WP OAuth Server may work but is not supported on Windows OS.
 
 = Support =
 
@@ -92,6 +92,11 @@ For any upgrade or modification, PLEASE PLEASE PLEASE make a full backup of your
 1. Adding a Client
 
 == Changelog ==
+
+= 3.1.5 =
+* Addressed security issues on older PHP versions as well as Windows OS.
+* Added checks to help ensure that the environment is supported before WP OAuth Server can be ran.
+* Add filter 'wo_scopes' to allow for extendability.
 
 = 3.1.4 =
 * Fixed bug in refresh token that prevented use of refresh tokens

@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.1.3";
+	public $version = "3.1.5";
 
 	/** Server Instance */
 	public static $_instance = null;
@@ -56,7 +56,7 @@ class WO_Server {
 		 *
 		 * @since 3.1.3
 		 */
-		add_filter( 'determine_current_user', array($this, '_wo_authenicate_bypass'), 21);
+		add_filter( 'determine_current_user', array($this, '_wo_authenicate_bypass'), 10);
 
 		/** 
 		 * load all dependents
@@ -81,26 +81,22 @@ class WO_Server {
 	 * @author Mauro Constantinescu Modified slightly but still a contribution to the project.
 	 */
 	public function _wo_authenicate_bypass( $user_id ) {
-	
-		if ( $user_id && $user_id > 0 ) return $user_id;
+		if ( $user_id && $user_id > 0 ) 
+			return (int)$user_id;
+
+		/** Extra code but if the user is already logged in, there is no need to re query the DB */
 		$o = get_option( 'wo_options' );
-		if ( $o['enabled'] == 0 ) return $user_id;
+		if ( $o['enabled'] == 0 ) 
+		return (int)$user_id;
 		
 		require_once( dirname( WPOAUTH_FILE ) . '/library/OAuth2/Autoloader.php');
-
-		/**
-		 * Since the server is ran only on API calls we can not simply
-		 * place this into the API or run a global variable = BOOOO
-		 *
-		 * Load the server generically
-		 */
 		OAuth2\Autoloader::register();
 		$server = new OAuth2\Server( new OAuth2\Storage\Wordpressdb() );
 		$request = OAuth2\Request::createFromGlobals();
 		if ( $server->verifyResourceRequest( $request ) ) {
 			$token = $server->getAccessTokenData( $request );
 			if ( isset( $token['user_id'] ) && $token['user_id'] > 0 )
-				return $token['user_id'];	
+				return (int)$token['user_id'];	
 		}
 	}
 
@@ -385,7 +381,7 @@ class WO_Server {
       );
 			";
 
-		/** LEGACY id_token PATCH - REMOVE IN VERSION 3.2.0*/
+		/** @todo LEGACY id_token PATCH - REMOVE IN VERSION 3.2.0*/
 		$wpdb->query("ALTER TABLE {$wpdb->prefix}oauth_authorization_codes MODIFY id_token VARCHAR(3000)");
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -398,9 +394,8 @@ class WO_Server {
 		dbDelta($sql7);
 
 		/**
-		 * Create Certificates for Signing
+		 * Create certificates for signing
 		 *
-		 * @todo Handle error here. Possibly deactivate the plugin!?
 		 */
 		if(function_exists('openssl_pkey_new')){
 			$res = openssl_pkey_new(array(
@@ -419,8 +414,7 @@ class WO_Server {
 
 	/**
 	 * Upgrade method
-	 * Updagrade Method 
-	 * @return [type] [description]
+	 * 
 	 */
 	public function upgrade () {
 		$options = get_option('wo_options');
@@ -442,6 +436,10 @@ class WO_Server {
 			$options['use_openid_connect'] = 3600;
 
 		update_option('wo_options', $options);
+
+		/** @todo Modification of collation for existing tables. Implanting in 3.2.0 */
+		//global $wpdb;
+		//$wpdb->query("alter table <some_table> convert to character set utf8 collate utf8_unicode_ci;");
 
 	}
 

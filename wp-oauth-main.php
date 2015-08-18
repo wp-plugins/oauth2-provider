@@ -9,7 +9,7 @@
 class WO_Server {
 
 	/** Version */
-	public $version = "3.1.5";
+	public $version = "3.1.6";
 
 	/** Server Instance */
 	public static $_instance = null;

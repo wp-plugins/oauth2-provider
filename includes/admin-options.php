@@ -262,7 +262,7 @@ class WPOAuth_Admin {
 					  <div id="clients">
 					  	<h2>
 					  		Clients
-					  		<a href="<?php echo WOURI ; ?>library/content/create-new-client.php?TB_iframe=true&width=600&height=420" class="add-new-h2 thickbox" title="Add New Client">Add New Client</a>
+					  		<a href="<?php echo site_url('wpoauthincludes/create'); ?>?TB_iframe=true&width=600&height=420" class="add-new-h2 thickbox" title="Add New Client">Add New Client</a>
 					  	</h2>
 
 							<?php

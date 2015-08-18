@@ -10,12 +10,8 @@
  * @todo Load WP core JS and styles for the plugin. It will be more cleaner and not rely on external JS libs.
  */
 
-/** Find wp-load and load it into scope */
-$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
-require_once( $parse_uri[0] . 'wp-load.php' );
-
 /** should stop 99% exploits */
-if(!current_user_can('manage_options') || !isset($_GET['client_id']))
+if(! current_user_can('manage_options') || !isset($_REQUEST['client_id']))
 	exit('Unauthorized Access');
 
 global $wpdb;
@@ -160,3 +156,4 @@ form {}
 	</form>
 
 </div>
+<?php exit; ?>

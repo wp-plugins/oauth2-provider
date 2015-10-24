@@ -155,13 +155,30 @@ class Wordpressdb implements
      */
     public function setAccessToken($access_token, $client_id, $user_id, $expires, $scope=null) 
     {   
+
+        /** 
+         * wo_set_access_token Action
+         * Returns access_token, client_id, $user_id
+         * @since  3.1.9
+         */
+        do_action('wo_set_access_token', array( 
+            'access_token' => $access_token, 
+            'client_id' => $client_id, 
+            'user_id' => $user_id 
+        ));
+
         $expires = date('Y-m-d H:i:s', $expires);
         if ($this->getAccessToken($access_token)) {
             $stmt = $this->db->prepare("UPDATE {$this->db->prefix}oauth_access_tokens SET client_id=%s, expires=%s, user_id=%s, scope=%s where access_token=%s", array($client_id, $expires, $user_id, $scope, $access_token));
         } else {
             $stmt = $this->db->prepare("INSERT INTO {$this->db->prefix}oauth_access_tokens (access_token, client_id, expires, user_id, scope) VALUES (%s, %s, %s, %s, %s)", array($access_token, $client_id, $expires, $user_id, $scope));
         }
-        return $this->db->query($stmt);
+        
+        // Give return a value
+        $results = $this->db->query($stmt);
+
+        // Return Results
+        return $results;
     }
     
     /**

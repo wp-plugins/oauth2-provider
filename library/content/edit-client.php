@@ -11,8 +11,8 @@
  */
 
 /** should stop 99% exploits */
-if(! current_user_can('manage_options') || !isset($_REQUEST['client_id']))
-	exit('Unauthorized Access');
+if(! current_user_can('manage_options') || !isset($_REQUEST['client_id']) || ! wp_verify_nonce($_REQUEST['_wp_nonce'], 'wpo-edit-client') )
+	wp_die('');
 
 global $wpdb;
 $client_info = $wpdb->get_row($wpdb->prepare("
